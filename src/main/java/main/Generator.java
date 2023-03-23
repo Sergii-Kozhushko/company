@@ -64,14 +64,15 @@ public class Generator {
         // создаем отдел управления с гендиректором
         Department departmentMain = new Department();
         departmentMain.setName(DEPARTMENT_NAMES[0]);
-        AEmployee ceo = employeeFactory.createEmployee("CEO");
+        CEO ceo = (CEO) employeeFactory.createEmployee("CEO");
         generateGeneralValues(ceo);
         // можем ли взять ассистента гендиректора? Добиваем остатком после формирования отделов
         if (employeesNumber > 5) {
-            for (int i = 1; i < employeesNumber % DEPARTMENTS_NUMBER; i++) {
+            int assistantsNumber = employeesNumber % DEPARTMENTS_NUMBER;
+            for (int i = 1; i < assistantsNumber; i++) {
                 Assistant assistant = (Assistant) employeeFactory.createEmployee("Assistant");
                 generateGeneralValues(assistant);
-                ((CEO)ceo).getAssistants().add(assistant);
+                ceo.getAssistants().add(assistant);
                 employeesNumber--;
             }
         }
@@ -90,7 +91,7 @@ public class Generator {
             employeesNumber--;
 
             // обычные сотрудники офиса
-            for (int j = 1; j < avgEmployeesNumber - 1; j++) {
+            for (int j = 1; j < avgEmployeesNumber; j++) {
                 OfficeWorker officeWorker = (OfficeWorker) employeeFactory.createEmployee("OfficeWorker");
                 generateGeneralValues(officeWorker);
                 department.getEmployees().add(officeWorker);
@@ -121,7 +122,7 @@ public class Generator {
         return generateRandomName() + " " + generateRandomName();
     }
 
-// метод генерирует рандомное имя, с заглавной буквой, гласные стоят на 3-м и 5-м месте, так осмысленней
+    // метод генерирует рандомное имя, с заглавной буквой, гласные стоят на 3-м и 5-м месте, так осмысленней
     public static String generateRandomName() {
         String symbolsVowel = "aeiouy";
         String symbolsConsonant = "bcdfghjklmnpqrstvwxz";
@@ -140,11 +141,11 @@ public class Generator {
             }
         }
 
-        String sb = String.valueOf(capitalSymbols.charAt(random.nextInt(capitalSymbols.length())));
+        String result = String.valueOf(capitalSymbols.charAt(random.nextInt(capitalSymbols.length())));
         for (int i = 0; i < arrayList.size(); i++) {
-            sb += arrayList.get(i);
+            result += arrayList.get(i);
         }
-        return sb;
+        return result;
     }
 
 }

@@ -85,17 +85,12 @@ public class Company {
         ArrayList<AEmployee> result = new ArrayList<>();
         for (Department department : departments) {
             ArrayList<AEmployee> elist = department.getEmployees();
+            result.addAll(elist);
             result.add(department.getChef());
-            if (department.getChef().getClass() == CEO.class) {
+            // добавляем ассистентов гендиректора
+            if (isCEO(department.getChef())) {
                 ArrayList<Assistant> assistants = ((CEO) department.getChef()).getAssistants();
                 result.addAll(assistants);
-            }
-            for (AEmployee employee : elist) {
-                if (employee.getClass() == CEO.class) {
-                    ArrayList<Assistant> alist = ((CEO) employee).getAssistants();
-                    result.addAll(alist);
-                }
-                result.add(employee);
             }
         }
         return result;

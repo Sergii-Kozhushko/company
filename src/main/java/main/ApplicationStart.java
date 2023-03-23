@@ -28,7 +28,7 @@ package main;
 public class ApplicationStart {
    public static void main(String[] args) {
 
-      Company company = Generator.createCompany(23);
+      Company company = Generator.createCompany(24);
 
       company.printStaffByDepartments();
       company.recalculateSalaries();
