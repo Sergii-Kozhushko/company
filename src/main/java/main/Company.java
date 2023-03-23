@@ -27,12 +27,23 @@ public class Company {
     private String name;
     private ArrayList<Department> departments = new ArrayList<>();
 
+    public boolean isCEO(AEmployee employee){
+        return employee.getClass() == CEO.class;
+    }
+
     // метод пересчитывает зарплаты сотрудников в завсисимости от рейтинга
     public void recalculateSalaries() {
         for (Department department : departments) {
             ArrayList<AEmployee> elist = department.getEmployees();
-            department.getChef().recalculateSalary();
-            ;
+            AEmployee manager = department.getChef();
+            manager.recalculateSalary();
+            if (isCEO(manager)){
+                ArrayList<Assistant> alist = ((CEO)manager).getAssistants();
+                for (Assistant assistant : alist){
+                    assistant.recalculateSalary();
+                }
+            }
+
             for (AEmployee employee : elist) {
                 employee.recalculateSalary();
             }
@@ -77,17 +88,12 @@ public class Company {
             result.add(department.getChef());
             if (department.getChef().getClass() == CEO.class) {
                 ArrayList<Assistant> assistants = ((CEO) department.getChef()).getAssistants();
-                for (Assistant assistant : assistants) {
-                    result.add(assistant);
-                }
+                result.addAll(assistants);
             }
             for (AEmployee employee : elist) {
                 if (employee.getClass() == CEO.class) {
-                    //employee = (CEO)employee;
                     ArrayList<Assistant> alist = ((CEO) employee).getAssistants();
-                    for (Assistant assistant : alist) {
-                        result.add(assistant);
-                    }
+                    result.addAll(alist);
                 }
                 result.add(employee);
             }

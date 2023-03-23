@@ -9,13 +9,10 @@ public enum Rating {
     C(5),
     D(0),
     E(-5);
-    int value;
+    final int value;
 
     Rating(int value) {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
 }
